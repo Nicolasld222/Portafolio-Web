@@ -3,14 +3,15 @@ import Reveal from "./Reveal";
 
 export default function About() {
   return (
-    <section id="sobre-mi" className="relative overflow-hidden bg-[#f5f7fb] px-5 py-24 sm:px-8 sm:py-32 dark:bg-[#0a0f1e]">
+    <section id="sobre-mi" className="relative overflow-hidden bg-transparent px-5 py-24 sm:px-8 sm:py-32">
       <div aria-hidden className="absolute right-[-12rem] top-20 h-80 w-80 rounded-full bg-accent/[0.07] blur-3xl" />
       <div className="relative mx-auto max-w-content">
         <Reveal className="grid items-start gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
           <div className="lg:sticky lg:top-28">
             <p className="section-label">Perfil / 01</p>
-            <div className="mt-6 flex h-28 w-28 items-end rounded-[24px] bg-[#0b1020] p-4 font-mono text-[32px] font-medium tracking-[-0.12em] text-white shadow-xl shadow-slate-900/10 sm:h-36 sm:w-36 sm:text-[42px]">
-              {profile.initials}
+            <div className="mt-6 flex h-36 w-full max-w-[260px] items-end justify-between rounded-[24px] border border-dashed border-slate-300 bg-[#0b1020] p-4 font-mono text-[32px] font-medium tracking-[-0.12em] text-white shadow-xl shadow-slate-900/10 sm:h-44 sm:text-[42px]" aria-label="Espacio reservado para fotografía de perfil">
+              <span>{profile.initials}</span>
+              <span className="text-[9px] font-normal tracking-[0.16em] text-red-200/70">PHOTO / 01</span>
             </div>
             <p className="mt-7 max-w-[30ch] text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
               Desarrollo con criterio de producto y una obsesión sana por los fundamentos técnicos.

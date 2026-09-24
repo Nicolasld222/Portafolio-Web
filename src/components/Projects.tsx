@@ -4,7 +4,7 @@ import Reveal from "./Reveal";
 
 export default function Projects() {
   return (
-    <section id="proyectos" className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 sm:py-32 dark:bg-[#070b16]">
+    <section id="proyectos" className="relative overflow-hidden bg-transparent px-5 py-24 sm:px-8 sm:py-32">
       <div aria-hidden className="absolute left-0 top-40 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent dark:via-white/10" />
       <div className="relative mx-auto max-w-content">
         <Reveal className="mb-14 grid max-w-[920px] gap-6 sm:mb-20 md:grid-cols-[0.8fr_1.2fr] md:gap-12">
@@ -19,11 +19,15 @@ export default function Projects() {
           </div>
         </Reveal>
 
-        {projects.map((project) => (
-          <Reveal key={project.title}>
-            <ProjectCard project={project} />
-          </Reveal>
-        ))}
+        {projects.map((project) =>
+          project.title === "UBIK" ? (
+            <ProjectCard key={project.title} project={project} />
+          ) : (
+            <Reveal key={project.title}>
+              <ProjectCard project={project} />
+            </Reveal>
+          ),
+        )}
       </div>
     </section>
   );

@@ -5,10 +5,10 @@ export default function Contact() {
   const linkedIn = profile.links.find((link) => link.label === "LinkedIn");
 
   return (
-    <section id="contacto" className="relative overflow-hidden bg-[#070b16] px-5 py-24 text-center text-white sm:px-8 sm:py-32">
-      <div aria-hidden className="absolute left-1/2 top-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-[#4058ff]/20 blur-[110px]" />
+    <section id="contacto" className="relative overflow-hidden bg-transparent px-5 py-24 text-center text-white sm:px-8 sm:py-32">
+      <div aria-hidden className="absolute left-1/2 top-0 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-red-600/20 blur-[110px]" />
       <Reveal className="relative mx-auto max-w-[760px]">
-        <p className="section-label !text-cyan-200/70">Contacto / 03</p>
+        <p className="section-label !text-red-200/75">Contacto / 03</p>
         <h2 className="mx-auto mt-6 max-w-[11ch] text-[42px] font-semibold leading-[1.02] tracking-[-0.06em] sm:text-[64px]">
           ¿Tienes un reto técnico en mente?
         </h2>
@@ -21,11 +21,16 @@ export default function Contact() {
             href={linkedIn.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-10 inline-block rounded-full bg-white px-6 py-3.5 text-[14px] font-semibold text-[#0b1020] transition hover:-translate-y-0.5 hover:bg-cyan-100"
+            className="mt-10 inline-block rounded-full bg-white px-6 py-3.5 text-[14px] font-semibold text-[#0b1020] transition hover:-translate-y-0.5 hover:bg-red-100"
           >
             Conectemos en LinkedIn <span aria-hidden>↗</span>
           </a>
         )}
+
+        <div className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-slate-400">
+          <a className="transition hover:text-white" href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a className="transition hover:text-white" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
+        </div>
 
         <div className="mt-12 flex flex-wrap justify-center gap-x-7 gap-y-3 border-t border-white/10 pt-6">
           {profile.links.map((link) => (
