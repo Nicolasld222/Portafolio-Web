@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { profile } from "@/data/profile";
 
 export default function Nav() {
@@ -23,9 +25,7 @@ export default function Nav() {
     >
       <div className="mx-auto flex max-w-content items-center justify-between px-5 py-4 sm:px-8">
         <a href="#inicio" className={`flex items-center gap-2 text-[13px] font-semibold tracking-tight ${scrolled ? "text-slate-900 dark:text-white" : "text-white"}`}>
-          <span className="grid h-7 w-7 place-items-center rounded-md border border-current/25 font-mono text-[10px] tracking-[-0.08em]">
-            {profile.initials}
-          </span>
+            <FontAwesomeIcon icon={faCircleUser} aria-hidden="true" />
           <span className="hidden sm:inline">{profile.name}</span>
         </a>
         <nav aria-label="Navegación principal">
@@ -38,6 +38,11 @@ export default function Nav() {
             <li>
               <a href="#sobre-mi" className={navLinkClasses(scrolled)}>
                 Perfil
+              </a>
+            </li>
+            <li className="hidden md:block">
+              <a href="#trayectoria" className={navLinkClasses(scrolled)}>
+                Trayectoria
               </a>
             </li>
             <li>

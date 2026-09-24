@@ -1,15 +1,15 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: "media",
+  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         // 👇 Cambia este color para cambiar el acento de todo el sitio
         accent: {
-          DEFAULT: "#3b5bff",
-          dark: "#7b8cff", // variante usada automáticamente en modo oscuro
+          DEFAULT: "#dc2626",
+          dark: "#f87171",
         },
       },
       fontFamily: {
