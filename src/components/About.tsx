@@ -3,7 +3,7 @@ import Reveal from "./Reveal";
 
 export default function About() {
   return (
-    <section id="sobre-mi" className="relative overflow-hidden bg-transparent px-5 py-24 sm:px-8 sm:py-32">
+    <section id="sobre-mi" className="relative overflow-hidden bg-transparent px-5 py-24 sm:px-6 sm:py-32">
       <div aria-hidden className="absolute right-[-12rem] top-20 h-80 w-80 rounded-full bg-accent/[0.07] blur-3xl" />
       <div className="relative mx-auto max-w-content">
         <Reveal className="grid items-start gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
@@ -27,7 +27,7 @@ export default function About() {
           </div>
 
           <div>
-            <h2 className="max-w-[13ch] text-[38px] font-semibold leading-[1.04] tracking-[-0.055em] text-slate-950 dark:text-white sm:text-[56px]">
+            <h2 className="max-w-[15ch] text-[30px] font-semibold leading-[1.04] tracking-[-0.055em] text-slate-950 dark:text-white sm:text-[56px]">
               Del modelo de datos a una experiencia completa.
             </h2>
 
