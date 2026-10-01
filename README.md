@@ -20,8 +20,8 @@ Abre http://localhost:3000
 Todo el contenido vive en dos archivos, no necesitas tocar los componentes:
 
 - **`src/data/profile.ts`** → tu nombre, iniciales, bio, habilidades, correo y enlaces (GitHub, LinkedIn, etc.)
-- **`src/data/projects.ts`** → tus proyectos. Ya tiene UBIK cargado como ejemplo real;
-  copia el bloque comentado al final del archivo para agregar más proyectos.
+- **`src/data/projects.ts`** → tus proyectos, sus tecnologías y enlaces de GitHub.
+  Las vistas previas de UBIK y del portafolio se construyen con componentes React.
 
 Si quieres cambiar el color de acento (el azul), edítalo en **`tailwind.config.ts`**,
 en `theme.extend.colors.accent`.
@@ -41,7 +41,7 @@ src/
     Reveal.tsx        → wrapper reutilizable para animación al hacer scroll
     Projects.tsx       → recorre src/data/projects.ts
     ProjectCard.tsx     → tarjeta de un proyecto
-    ProjectVisual.tsx   → mockup visual abstracto (no requiere imágenes)
+    ProjectVisual.tsx   → vistas previas ilustradas para cada proyecto
     About.tsx           → bio + habilidades
     Contact.tsx         → CTA de correo + enlaces
     Footer.tsx          → pie de página

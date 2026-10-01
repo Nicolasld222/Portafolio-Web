@@ -9,11 +9,9 @@ export default function BackgroundScene() {
   const pointerX = useSpring(useMotionValue(50), { stiffness: 90, damping: 24 });
   const pointerY = useSpring(useMotionValue(42), { stiffness: 90, damping: 24 });
   const [viewportWidth, setViewportWidth] = useState(0);
-  // El orbe termina ligeramente fuera del borde para que el foco visual quede más a la derecha.
-  const redOrbMaxX = Math.max(0, viewportWidth - 256);
-  // Primero se desplaza en línea recta hacia la derecha; solo después empieza a bajar.
-  const redOrbY = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0, reduce ? 0 : 420]);
-  const redOrbX = useTransform(scrollYProgress, [0, 0.55, 1], [0, reduce ? 0 : redOrbMaxX, reduce ? 0 : redOrbMaxX]);
+  const accentOrbMaxX = Math.max(0, viewportWidth - 256);
+  const accentOrbY = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0, reduce ? 0 : 420]);
+  const accentOrbX = useTransform(scrollYProgress, [0, 0.55, 1], [0, reduce ? 0 : accentOrbMaxX, reduce ? 0 : accentOrbMaxX]);
   const secondaryOrbY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -420]);
   const gridGlowMask = useMotionTemplate`radial-gradient(15rem circle at ${pointerX}% ${pointerY}%, black 0%, rgba(0, 0, 0, 0.78) 35%, transparent 72%)`;
 
@@ -42,11 +40,11 @@ export default function BackgroundScene() {
   return (
     <div className="site-background pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
       <motion.div
-        className="absolute -left-40 top-[8%] h-[34rem] w-[34rem] rounded-full bg-red-700/25 blur-[120px]"
-        style={{ x: redOrbX, y: redOrbY, scale: glowScale }}
+        className="absolute -left-40 top-[8%] h-[34rem] w-[34rem] rounded-full bg-cyan-500/20 blur-[120px]"
+        style={{ x: accentOrbX, y: accentOrbY, scale: glowScale }}
       />
       <motion.div
-        className="absolute -right-48 top-[42%] h-[30rem] w-[30rem] rounded-full bg-rose-950/70 blur-[110px]"
+        className="absolute -right-48 top-[42%] h-[30rem] w-[30rem] rounded-full bg-violet-600/25 blur-[110px]"
         style={{ y: secondaryOrbY }}
       />
       <div className="site-background-grid absolute -inset-10 opacity-55" />
@@ -58,7 +56,7 @@ export default function BackgroundScene() {
         }}
       />
       <motion.div
-        className="absolute h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-500/10 blur-3xl"
+        className="absolute h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-rose-400/10 blur-3xl"
         style={{ left: `${pointerX}%`, top: `${pointerY}%` }}
       />
       <div className="site-background-noise absolute inset-0" />

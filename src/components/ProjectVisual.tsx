@@ -1,43 +1,107 @@
-export default function ProjectVisual({ title }: { title: string }) {
+import Image from "next/image";
+
+type ProjectVisualProps = {
+  title: string;
+  variant: "booking" | "portfolio";
+};
+
+export default function ProjectVisual({ title, variant }: ProjectVisualProps) {
+  if (variant === "portfolio") {
+    return <PortfolioPreview title={title} />;
+  }
+
+  return <BookingPreview />;
+}
+
+function BookingPreview() {
   const services = ["Users", "Stays", "Payments", "Notify"];
 
   return (
-    <div className="relative aspect-[1.08/1] overflow-hidden rounded-[28px] border border-[#293655] bg-[#091022] p-5 shadow-2xl shadow-slate-950/20 sm:p-7">
-      <div aria-hidden className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(132,157,255,.16)_1px,transparent_1px),linear-gradient(90deg,rgba(132,157,255,.16)_1px,transparent_1px)] [background-size:28px_28px]" />
-      <div aria-hidden className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-indigo-500/25 blur-3xl" />
+    <div
+      role="img"
+      aria-label="Vista ilustrada de UBIK: panel de reservas y servicios conectados a un API Gateway"
+      className="project-preview relative aspect-[1.24/1] overflow-hidden rounded-[24px] border border-white/10 bg-[#100d17] p-4 shadow-2xl shadow-black/20 sm:rounded-[28px] sm:p-6"
+    >
+      <div aria-hidden className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(216,180,254,.1)_1px,transparent_1px),linear-gradient(90deg,rgba(216,180,254,.1)_1px,transparent_1px)] [background-size:28px_28px]" />
+      <div aria-hidden className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-fuchsia-400/10 blur-3xl" />
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-200/70">Architecture map</p>
-            <p className="mt-1 text-[17px] font-semibold tracking-tight text-white">{title} / Services</p>
-          </div>
-          <span className="rounded-full border border-cyan-300/25 bg-cyan-300/10 px-2.5 py-1 font-mono text-[9px] font-medium text-cyan-100">LIVE SYSTEM</span>
-        </div>
-
-        <div className="relative my-auto pt-10">
-          <div className="absolute left-[50%] top-[6.4rem] h-[44%] w-px bg-gradient-to-b from-cyan-300/70 via-indigo-300/40 to-transparent" aria-hidden />
-          <div className="relative mx-auto grid w-fit place-items-center rounded-xl border border-cyan-200/30 bg-cyan-300/[0.12] px-4 py-3 text-center shadow-[0_0_35px_rgba(103,232,249,.12)]">
-            <span className="font-mono text-[9px] uppercase tracking-[0.15em] text-cyan-100">API Gateway</span>
-            <span className="mt-1 text-[11px] font-medium text-white">JWT authentication</span>
-          </div>
-
-          <div className="relative mt-10 grid grid-cols-2 gap-3 sm:gap-4">
-            {services.map((service, index) => (
-              <div key={service} className="relative rounded-xl border border-white/10 bg-white/[0.055] p-3 backdrop-blur-sm">
-                <span className="font-mono text-[9px] text-indigo-200/75">0{index + 1}</span>
-                <p className="mt-2 text-[12px] font-medium text-white">{service}</p>
-                <p className="mt-0.5 text-[9px] text-slate-400">Independent service</p>
-              </div>
-            ))}
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-cyan-100/60 sm:text-[10px]">UBIK · STAYS & EXPERIENCES</p>
           </div>
         </div>
+        <ProjectImage
+          src="https://res.cloudinary.com/dwkq16pdu/image/upload/v1790817560/image_xlhtfk.png"
+          alt=""
+          tone="cyan"
+        />
 
-        <div className="grid grid-cols-3 gap-2 border-t border-white/10 pt-4 text-center font-mono text-[9px] uppercase tracking-[0.08em] text-slate-400">
+        <div className="flex items-center justify-between border-t border-white/10 pt-3 font-mono text-[8px] uppercase tracking-[0.08em] text-slate-400 sm:pt-4 sm:text-[9px]">
           <span>Spring Boot</span>
           <span>PostgreSQL</span>
-          <span>Docker + Azure</span>
+          <span>Docker · Azure</span>
         </div>
       </div>
+    </div>
+  );
+}
+
+function PortfolioPreview({ title }: { title: string }) {
+  return (
+    <div
+      role="img"
+      aria-label={`Vista ilustrada del sitio ${title}: portafolio personal de desarrollo`}
+      className="project-preview relative aspect-[1.24/1] overflow-hidden rounded-[24px] border border-fuchsia-100/15 bg-[#110d1b] p-4 shadow-2xl shadow-fuchsia-950/25 sm:rounded-[28px] sm:p-6"
+    >
+      <div aria-hidden className="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-fuchsia-500/20 blur-3xl" />
+      <div aria-hidden className="absolute -bottom-20 -left-10 h-56 w-56 rounded-full bg-orange-400/10 blur-3xl" />
+      <div className="relative flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-[#090811]/85 shadow-2xl sm:rounded-2xl">
+        <div className="flex h-9 shrink-0 items-center gap-1.5 border-b border-white/10 px-3 sm:h-11 sm:px-4">
+          <span className="h-1.5 w-1.5 rounded-full bg-rose-300/80 sm:h-2 sm:w-2" />
+          <span className="h-1.5 w-1.5 rounded-full bg-amber-200/80 sm:h-2 sm:w-2" />
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-200/80 sm:h-2 sm:w-2" />
+          <span className="ml-auto font-mono text-[7px] text-fuchsia-200/70 sm:text-[8px]">REACT · NEXT.JS</span>
+        </div>
+
+        <ProjectImage
+          src="https://res.cloudinary.com/dwkq16pdu/image/upload/v1790818809/Captura_de_pantalla_2026-09-30_203906_t4eau0.png"
+          alt=""
+          tone="fuchsia"
+        />
+
+        <div className="flex h-8 shrink-0 items-center justify-between border-t border-white/10 px-3 font-mono text-[7px] text-slate-500 sm:h-9 sm:px-4 sm:text-[8px]">
+          <span>PORTAFOLIO PERSONAL</span>
+          <span className="text-fuchsia-200/70">DISEÑADO CON INTENCIÓN</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectImage({
+  src,
+  alt,
+  tone,
+}: {
+  src: string;
+  alt: string;
+  tone: "cyan" | "fuchsia";
+}) {
+  return (
+    <div
+      className={`project-image group relative my-4 aspect-[1.6/1] overflow-hidden rounded-2xl border bg-[#0b0911]/80 shadow-lg transition-[border-color,box-shadow] duration-500 sm:my-5 sm:rounded-[20px] motion-reduce:transition-none ${
+        tone === "cyan"
+          ? "border-cyan-100/15 shadow-cyan-950/20 hover:border-cyan-200/35 hover:shadow-cyan-500/10"
+          : "border-fuchsia-100/15 shadow-fuchsia-950/20 hover:border-fuchsia-200/35 hover:shadow-fuchsia-500/10"
+      }`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 90vw, 44vw"
+        className="object-contain transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.06] motion-reduce:transform-none motion-reduce:transition-none"
+      />
     </div>
   );
 }

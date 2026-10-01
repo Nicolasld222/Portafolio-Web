@@ -87,7 +87,7 @@ export const profile = {
 
   languages: [
     { name: "Español", level: "Nativo", value: 100 },
-    { name: "Inglés", level: "Muy básico", value: 25 },
+    { name: "Inglés", level: "Básico B2", value: 25 },
   ],
 
   links: [
