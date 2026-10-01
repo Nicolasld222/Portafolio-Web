@@ -9,10 +9,10 @@ export default function About() {
         <Reveal className="grid items-start gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
           <div className="lg:sticky lg:top-28">
             <p className="section-label">Perfil / 01</p>
-            <div className="mt-6 flex h-36 w-full max-w-[260px] items-end justify-between rounded-[24px] border border-dashed border-slate-300 bg-[#0b1020] p-4 font-mono text-[32px] font-medium tracking-[-0.12em] text-white shadow-xl shadow-slate-900/10 sm:h-44 sm:text-[42px]" aria-label="Espacio reservado para fotografía de perfil">
+            {/* <div className="mt-6 flex h-36 w-full max-w-[260px] items-end justify-between rounded-[24px] border border-dashed border-slate-300 bg-[#0b1020] p-4 font-mono text-[32px] font-medium tracking-[-0.12em] text-white shadow-xl shadow-slate-900/10 sm:h-44 sm:text-[42px]" aria-label="Espacio reservado para fotografía de perfil">
               <span>{profile.initials}</span>
               <span className="text-[9px] font-normal tracking-[0.16em] text-red-200/70">PHOTO / 01</span>
-            </div>
+            </div> */}
             <p className="mt-7 max-w-[30ch] text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
               Desarrollo con criterio de producto y una obsesión sana por los fundamentos técnicos.
             </p>

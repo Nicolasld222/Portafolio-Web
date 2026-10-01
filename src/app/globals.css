@@ -19,14 +19,16 @@ body {
 
 .site-background {
   background:
-    radial-gradient(circle at 50% -10%, rgba(185, 28, 28, 0.26), transparent 34rem),
-    linear-gradient(145deg, #050304 0%, #130608 48%, #030203 100%);
+    radial-gradient(ellipse 46rem 68rem at 50% 42%, rgba(161, 39, 93, 0.2), transparent 72%),
+    radial-gradient(ellipse 35rem 62rem at 0% 48%, rgba(14, 116, 144, 0.2), transparent 78%),
+    radial-gradient(ellipse 38rem 66rem at 100% 55%, rgba(109, 40, 217, 0.22), transparent 76%),
+    linear-gradient(115deg, #050a12 0%, #0d0711 48%, #080611 100%);
 }
 
 .site-background-grid {
   background-image:
-    linear-gradient(rgba(248, 113, 113, 0.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(248, 113, 113, 0.11) 1px, transparent 1px);
+    linear-gradient(rgba(216, 180, 254, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(216, 180, 254, 0.08) 1px, transparent 1px);
   background-size: 76px 76px;
   mask-image: linear-gradient(to bottom, transparent, black 20%, black 72%, transparent);
   background-position: center;
@@ -34,8 +36,8 @@ body {
 
 .site-background-grid--active {
   background-image:
-    linear-gradient(rgba(254, 202, 202, 0.45) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(254, 202, 202, 0.45) 1px, transparent 1px);
+    linear-gradient(rgba(224, 231, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(224, 231, 255, 0.4) 1px, transparent 1px);
   opacity: 0.9;
   will-change: mask-image;
 }
@@ -47,8 +49,8 @@ body {
 }
 
 .hero-grid {
-  background-image: linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(216, 180, 254, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(216, 180, 254, 0.1) 1px, transparent 1px);
   background-size: 52px 52px;
   mask-image: linear-gradient(to bottom, black, transparent 82%);
 }
@@ -59,7 +61,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #f87171;
+  color: #fda4af;
 }
 
 :focus-visible {
