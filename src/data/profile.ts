@@ -17,7 +17,6 @@ export const profile = {
   role: "Software Developer · Backend & Full Stack",
   location: "Armenia, Colombia",
   email: "nicolaslondia@gmail.com",
-  phone: "+57 323 406 2814",
   availability: "Disponible para aprender, colaborar y construir",
 
   intro:
@@ -56,7 +55,7 @@ export const profile = {
 
   experience: [
     {
-      period: "Abril 2026 — Actualidad",
+      period: "Abril 2026 — Octubre 2026",
       title: "Desarrollador web · Área administrativa",
       organization: "Colchones Happy Sleep",
       description: "Desarrollo y mantengo soluciones web para apoyar procesos administrativos y mejorar la operación del negocio.",
@@ -70,7 +69,7 @@ export const profile = {
 
   education: [
     {
-      period: "Julio 2024 — Actualidad",
+      period: "Julio 2024 — Octubre 2025",
       title: "Tecnólogo en Análisis y Desarrollo de Software",
       organization: "SENA · Centro de Comercio y Turismo",
       description: "Formación en desarrollo de software, bases de datos, desarrollo web, APIs y fundamentos de ingeniería.",
@@ -87,7 +86,7 @@ export const profile = {
 
   languages: [
     { name: "Español", level: "Nativo", value: 100 },
-    { name: "Inglés", level: "Básico B2", value: 25 },
+    { name: "Inglés", level: "Básico B1", value: 40 },
   ],
 
   links: [

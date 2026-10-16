@@ -29,7 +29,6 @@ export default function Contact() {
 
         <div className="mt-7 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-slate-400">
           <a className="transition hover:text-white" href={`mailto:${profile.email}`}>{profile.email}</a>
-          <a className="transition hover:text-white" href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
         </div>
 
         <div className="mt-12 flex flex-wrap justify-center gap-x-7 gap-y-3 border-t border-white/10 pt-6">
