@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
@@ -10,6 +10,7 @@ import {
   faHouse,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
 
 const navItems = [
@@ -18,13 +19,16 @@ const navItems = [
   { href: "#sobre-mi", label: "Perfil", icon: faUser },
 ];
 const sectionIds = ["inicio", "proyectos", "trayectoria", "sobre-mi", "contacto"];
+const springTransition = { type: "spring" as const, stiffness: 380, damping: 32, mass: 0.6 };
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("proyectos");
+  const frame = useRef<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    const update = () => {
+      frame.current = null;
       setScrolled(window.scrollY > 40);
 
       let currentSection = "inicio";
@@ -38,9 +42,18 @@ export default function Nav() {
       setActiveSection(currentSection);
     };
 
-    onScroll();
+    const onScroll = () => {
+      if (frame.current === null) {
+        frame.current = window.requestAnimationFrame(update);
+      }
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame.current !== null) window.cancelAnimationFrame(frame.current);
+    };
   }, []);
 
   return (
@@ -52,20 +65,30 @@ export default function Nav() {
       }`}>
         <div className="mx-auto flex max-w-content items-center justify-between px-5 py-4 sm:px-8">
           <a href="#inicio" className="group flex items-center gap-3 text-[20px] font-semibold tracking-tight text-white">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-300/25 bg-red-500/10 text-xs text-red-300 shadow-[0_0_20px_rgba(239,68,68,0.18)] transition-transform group-hover:rotate-6">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-red-300/25 bg-red-500/10 text-xs text-red-300 shadow-[0_0_20px_rgba(239,68,68,0.18)] transition-transform duration-500 group-hover:rotate-6 group-hover:shadow-[0_0_28px_rgba(239,68,68,0.45)]">
               N
             </span>
             <span>{profile.name}</span>
           </a>
           <nav aria-label="Navegación principal">
             <ul className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] p-1 shadow-inner shadow-white/5">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <a href={item.href} className={navLinkClasses(activeSection === item.href.slice(1))}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                const active = activeSection === item.href.slice(1);
+                return (
+                  <li key={item.href}>
+                    <a href={item.href} className={navLinkClasses(active)}>
+                      {active && (
+                        <motion.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 rounded-full bg-white/10 shadow-sm"
+                          transition={springTransition}
+                        />
+                      )}
+                      <span className="relative z-10">{item.label}</span>
+                    </a>
+                  </li>
+                );
+              })}
               <li>
                 <a href="#contacto" className={`group ml-1 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] font-semibold transition-all duration-300 hover:-translate-y-px ${
                   activeSection === "contacto"
@@ -99,13 +122,18 @@ export default function Nav() {
                 href={item.href}
                 aria-label={item.label}
                 aria-current={active ? "location" : undefined}
-                className={`flex h-12 min-w-0 flex-1 items-center justify-center rounded-2xl transition-all ${
-                  active
-                    ? "bg-red-500/15 text-red-200 shadow-sm"
-                    : "text-white/55 hover:bg-white/[0.06] hover:text-white"
+                className={`relative flex h-12 min-w-0 flex-1 items-center justify-center rounded-2xl transition-colors duration-300 ${
+                  active ? "text-red-200" : "text-white/55 hover:bg-white/[0.06] hover:text-white"
                 }`}
               >
-                <FontAwesomeIcon icon={item.icon} className="h-3.5 w-3.5" aria-hidden="true" />
+                {active && (
+                  <motion.span
+                    layoutId="nav-active-mobile"
+                    className="absolute inset-0 rounded-2xl bg-red-500/15 shadow-sm"
+                    transition={springTransition}
+                  />
+                )}
+                <FontAwesomeIcon icon={item.icon} className="relative z-10 h-3.5 w-3.5" aria-hidden="true" />
               </a>
             );
           })}
@@ -116,9 +144,9 @@ export default function Nav() {
 }
 
 function navLinkClasses(active: boolean) {
-  return `relative inline-flex items-center rounded-full px-4 py-2 text-[12px] font-medium transition-all duration-300 ${
+  return `relative inline-flex items-center rounded-full px-4 py-2 text-[12px] font-medium transition-colors duration-300 ${
     active
-      ? "bg-white/10 text-white shadow-sm"
+      ? "text-white"
       : "text-white/55 hover:bg-white/[0.06] hover:text-white"
   }`;
 }

@@ -2,6 +2,8 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { profile } from "@/data/profile";
+import SplitText from "./SplitText";
+import Magnetic from "./Magnetic";
 
 const stack = ["Laravel", "Spring Boot", "React", "Docker"];
 
@@ -10,6 +12,7 @@ export default function Hero() {
   const { scrollY } = useScroll();
   const backgroundY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 110]);
   const panelY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : -36]);
+  const copyOpacity = useTransform(scrollY, [0, 620], [1, reduce ? 1 : 0]);
   const rise = {
     hidden: { opacity: 0, y: reduce ? 0 : 20 },
     show: { opacity: 1, y: 0 },
@@ -31,7 +34,7 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto grid w-full max-w-content items-center gap-16 lg:grid-cols-[1.12fr_0.88fr] lg:gap-12">
-        <div>
+        <motion.div style={{ opacity: copyOpacity }}>
           <motion.p
             initial="hidden"
             animate="show"
@@ -39,25 +42,29 @@ export default function Hero() {
             transition={{ duration: 0.65, delay: 0.05 }}
             className="mb-6 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-200/80"
           >
-            <span className="h-2 w-2 rounded-full bg-red-300 shadow-[0_0_16px_#f87171]" />
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-300 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-300 shadow-[0_0_16px_#f87171]" />
+            </span>
             {profile.role}
           </motion.p>
 
-          <motion.h1
-            initial="hidden"
-            animate="show"
-            variants={rise}
-            transition={{ duration: 0.82, delay: 0.14, ease: [0.2, 0.8, 0.2, 1] }}
-            className="max-w-[10ch] text-[46px] font-semibold leading-[0.98] tracking-[-0.06em] sm:text-[68px] lg:text-[82px]"
-          >
-            Sistemas sólidos. Productos que escalan.
-          </motion.h1>
+          <h1 className="max-w-[10ch] text-[46px] font-semibold leading-[0.98] tracking-[-0.06em] sm:text-[68px] lg:text-[82px]">
+            <SplitText
+              as="span"
+              text="Sistemas sólidos. Productos que escalan."
+              mode="mount"
+              delay={0.14}
+              drift
+              className="block"
+            />
+          </h1>
 
           <motion.p
             initial="hidden"
             animate="show"
             variants={rise}
-            transition={{ duration: 0.75, delay: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={{ duration: 0.75, delay: 0.34, ease: [0.2, 0.8, 0.2, 1] }}
             className="mt-7 max-w-[50ch] text-[17px] leading-relaxed text-slate-300 sm:text-[19px]"
           >
             Soy {profile.name}. Construyo aplicaciones backend y full stack con una base técnica clara: datos confiables, APIs robustas e infraestructura lista para crecer.
@@ -67,15 +74,19 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={rise}
-            transition={{ duration: 0.7, delay: 0.42, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={{ duration: 0.7, delay: 0.46, ease: [0.2, 0.8, 0.2, 1] }}
             className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4"
           >
-            <a
+            <Magnetic
               href="#proyectos"
-              className="rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#0b1020] transition hover:-translate-y-0.5 hover:bg-red-100 focus-visible:outline-white"
+              strength={0.32}
+              className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#0b1020] shadow-[0_12px_40px_rgba(255,255,255,0.12)] focus-visible:outline-white"
             >
-              Explorar proyectos <span aria-hidden>↗</span>
-            </a>
+              Explorar proyectos
+              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                ↗
+              </span>
+            </Magnetic>
             <a
               href="#contacto"
               className="group text-[14px] font-medium text-white/80 transition hover:text-white"
@@ -88,14 +99,14 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={rise}
-            transition={{ duration: 0.7, delay: 0.55 }}
+            transition={{ duration: 0.7, delay: 0.58 }}
             className="mt-14 flex flex-wrap gap-x-7 gap-y-3 border-t border-white/10 pt-5 text-[12px] text-slate-400"
           >
             <span>{profile.location}</span>
             <span className="hidden h-4 w-px bg-white/15 sm:block" />
             <span>{profile.availability}</span>
           </motion.div>
-        </div>
+        </motion.div>
 
         <motion.div
           style={{ y: panelY }}
@@ -105,51 +116,63 @@ export default function Hero() {
           className="relative mx-auto w-full max-w-[490px] lg:justify-self-end"
         >
           <div className="absolute -inset-8 rounded-full bg-accent/15 blur-3xl" aria-hidden />
-          <div className="relative overflow-hidden rounded-[28px] border border-white/15 bg-white/[0.055] p-4 shadow-[0_25px_100px_rgba(0,0,0,0.36)] backdrop-blur-xl sm:p-5">
+          <div className="relative animate-float motion-reduce:animate-none">
+            <div aria-hidden className="absolute -inset-[3px] overflow-hidden rounded-[31px]">
+              <div className="absolute left-1/2 top-1/2 h-[220%] w-[220%] -translate-x-1/2 -translate-y-1/2 animate-spin-slow bg-[conic-gradient(from_0deg,transparent_0%,#f87171_16%,transparent_36%,#a78bfa_52%,transparent_72%)] opacity-70 blur-[3px]" />
+            </div>
+            <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0a14]/85 p-4 shadow-[0_25px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-5">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
-              <div className="flex gap-1.5" aria-hidden>
-                <span className="h-2 w-2 rounded-full bg-rose-300/70" />
-                <span className="h-2 w-2 rounded-full bg-amber-200/70" />
-                <span className="h-2 w-2 rounded-full bg-emerald-300/70" />
+                <div className="flex gap-1.5" aria-hidden>
+                  <span className="h-2 w-2 rounded-full bg-rose-300/70" />
+                  <span className="h-2 w-2 rounded-full bg-amber-200/70" />
+                  <span className="h-2 w-2 rounded-full bg-emerald-300/70" />
+                </div>
+                <span className="font-mono text-[10px] tracking-[0.14em] text-slate-400">SYSTEM / OVERVIEW</span>
               </div>
-              <span className="font-mono text-[10px] tracking-[0.14em] text-slate-400">SYSTEM / OVERVIEW</span>
-            </div>
 
-            <div className="grid gap-4 py-5 sm:grid-cols-[1.25fr_0.75fr]">
-              <div className="rounded-2xl border border-white/10 bg-[#080d1c]/70 p-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-red-200/75">Core stack</p>
-                <div className="mt-5 space-y-3">
-                  {stack.map((technology, index) => (
-                    <div key={technology} className="flex items-center gap-3">
-                      <span className="grid h-6 w-6 place-items-center rounded-md bg-white/[0.08] font-mono text-[10px] text-red-200">0{index + 1}</span>
-                      <span className="text-[13px] text-slate-200">{technology}</span>
-                      <span className="ml-auto h-1.5 w-10 rounded-full bg-white/[0.08]">
-                        <span className="block h-full rounded-full bg-red-300" style={{ width: `${82 - index * 8}%` }} />
-                      </span>
-                    </div>
-                  ))}
+              <div className="grid gap-4 py-5 sm:grid-cols-[1.25fr_0.75fr]">
+                <div className="rounded-2xl border border-white/10 bg-[#080d1c]/70 p-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-red-200/75">Core stack</p>
+                  <div className="mt-5 space-y-3">
+                    {stack.map((technology, index) => (
+                      <div key={technology} className="flex items-center gap-3">
+                        <span className="grid h-6 w-6 place-items-center rounded-md bg-white/[0.08] font-mono text-[10px] text-red-200">
+                          0{index + 1}
+                        </span>
+                        <span className="text-[13px] text-slate-200">{technology}</span>
+                        <span className="ml-auto h-1.5 w-10 overflow-hidden rounded-full bg-white/[0.08]">
+                          <motion.span
+                            className="block h-full rounded-full bg-gradient-to-r from-red-400 to-orange-200"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${82 - index * 8}%` }}
+                            transition={{ duration: 1.1, delay: 0.7 + index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                          />
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between rounded-2xl border border-white/10 bg-gradient-to-b from-red-500/25 to-[#0c1224]/70 p-4">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-300">Now learning</p>
+                    <p className="mt-3 text-[17px] font-medium leading-tight text-white">Secure by design.</p>
+                  </div>
+                  <div className="mt-10 space-y-2">
+                    {profile.currentlyLearning.map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-[10px] text-slate-300">
+                        <span className="h-1.5 w-1.5 rounded-full bg-red-300" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-col justify-between rounded-2xl border border-white/10 bg-gradient-to-b from-red-500/25 to-[#0c1224]/70 p-4">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-300">Now learning</p>
-                  <p className="mt-3 text-[17px] font-medium leading-tight text-white">Secure by design.</p>
-                </div>
-                <div className="mt-10 space-y-2">
-                  {profile.currentlyLearning.map((item) => (
-                    <div key={item} className="flex items-center gap-2 text-[10px] text-slate-300">
-                      <span className="h-1.5 w-1.5 rounded-full bg-red-300" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
+              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
+                <span className="font-mono text-[10px] text-slate-400">BUILDING WITH INTENTION</span>
+                <span className="text-[11px] font-medium text-red-200">Backend-first</span>
               </div>
-            </div>
-
-            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3">
-              <span className="font-mono text-[10px] text-slate-400">BUILDING WITH INTENTION</span>
-              <span className="text-[11px] font-medium text-red-200">Backend-first</span>
             </div>
           </div>
         </motion.div>

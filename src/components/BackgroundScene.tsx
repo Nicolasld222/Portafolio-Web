@@ -6,26 +6,29 @@ import { useEffect, useState } from "react";
 export default function BackgroundScene() {
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
-  const pointerX = useSpring(useMotionValue(50), { stiffness: 90, damping: 24 });
-  const pointerY = useSpring(useMotionValue(42), { stiffness: 90, damping: 24 });
+  const pointerSourceX = useMotionValue(50);
+  const pointerSourceY = useMotionValue(42);
+  const pointerX = useSpring(pointerSourceX, { stiffness: 90, damping: 24 });
+  const pointerY = useSpring(pointerSourceY, { stiffness: 90, damping: 24 });
   const [viewportWidth, setViewportWidth] = useState(0);
   const accentOrbMaxX = Math.max(0, viewportWidth - 256);
   const accentOrbY = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0, reduce ? 0 : 420]);
   const accentOrbX = useTransform(scrollYProgress, [0, 0.55, 1], [0, reduce ? 0 : accentOrbMaxX, reduce ? 0 : accentOrbMaxX]);
   const secondaryOrbY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -420]);
   const gridGlowMask = useMotionTemplate`radial-gradient(15rem circle at ${pointerX}% ${pointerY}%, black 0%, rgba(0, 0, 0, 0.78) 35%, transparent 72%)`;
+  const sheenMask = useMotionTemplate`radial-gradient(22rem circle at ${pointerX}% ${pointerY}%, black 0%, transparent 68%)`;
 
   useEffect(() => {
     if (reduce) return;
 
     const handlePointerMove = (event: PointerEvent) => {
-      pointerX.set((event.clientX / window.innerWidth) * 100);
-      pointerY.set((event.clientY / window.innerHeight) * 100);
+      pointerSourceX.set((event.clientX / window.innerWidth) * 100);
+      pointerSourceY.set((event.clientY / window.innerHeight) * 100);
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     return () => window.removeEventListener("pointermove", handlePointerMove);
-  }, [pointerX, pointerY, reduce]);
+  }, [pointerSourceX, pointerSourceY, reduce]);
 
   useEffect(() => {
     const updateViewportWidth = () => setViewportWidth(window.innerWidth);
@@ -39,20 +42,32 @@ export default function BackgroundScene() {
 
   return (
     <div className="site-background pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
-      <motion.div
-        className="absolute -left-40 top-[8%] h-[34rem] w-[34rem] rounded-full bg-cyan-500/20 blur-[120px]"
-        style={{ x: accentOrbX, y: accentOrbY, scale: glowScale }}
-      />
-      <motion.div
-        className="absolute -right-48 top-[42%] h-[30rem] w-[30rem] rounded-full bg-violet-600/25 blur-[110px]"
-        style={{ y: secondaryOrbY }}
-      />
+      <div className="absolute -left-40 top-[8%] h-[34rem] w-[34rem] animate-aurora-a motion-reduce:animate-none">
+        <motion.div
+          className="h-full w-full rounded-full bg-cyan-500/20 blur-[120px]"
+          style={{ x: accentOrbX, y: accentOrbY, scale: glowScale }}
+        />
+      </div>
+      <div className="absolute -right-48 top-[42%] h-[30rem] w-[30rem] animate-aurora-b motion-reduce:animate-none">
+        <motion.div className="h-full w-full rounded-full bg-violet-600/25 blur-[110px]" style={{ y: secondaryOrbY }} />
+      </div>
+      <div className="absolute left-[45%] top-[70%] h-[26rem] w-[26rem] animate-aurora-a motion-reduce:animate-none [animation-delay:-12s]">
+        <div className="h-full w-full rounded-full bg-fuchsia-600/[0.14] blur-[120px]" />
+      </div>
+
       <div className="site-background-grid absolute -inset-10 opacity-55" />
       <motion.div
         className="site-background-grid site-background-grid--active absolute -inset-10"
         style={{
           maskImage: gridGlowMask,
           WebkitMaskImage: gridGlowMask,
+        }}
+      />
+      <motion.div
+        className="site-background-grid site-background-grid--active absolute -inset-10 opacity-40"
+        style={{
+          maskImage: sheenMask,
+          WebkitMaskImage: sheenMask,
         }}
       />
       <motion.div

@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
+import TechMarquee from "@/components/TechMarquee";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import About from "@/components/About";
@@ -15,6 +16,7 @@ export default function Home() {
       <ScrollProgress />
       <Nav />
       <Hero />
+      <TechMarquee />
       <Projects />
       <Experience />
       <About />
