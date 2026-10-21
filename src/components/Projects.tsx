@@ -1,6 +1,7 @@
 import { projects } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
 import Reveal from "./Reveal";
+import SplitText from "./SplitText";
 
 export default function Projects() {
   return (
@@ -12,7 +13,7 @@ export default function Projects() {
           <p className="section-label pt-2">Trabajo seleccionado / 02</p>
           <div>
             <h2 className="text-[38px] font-semibold leading-[1.02] tracking-[-0.055em] text-white sm:text-[56px]">
-              Proyectos que merecen ser vistos.
+              <SplitText as="span" text="Proyectos que merecen ser vistos." className="block" />
             </h2>
             <p className="mt-5 max-w-[48ch] text-[16px] leading-relaxed text-slate-300 sm:text-[17px]">
               De una plataforma de microservicios a este espacio personal construido con React. Diseño, decisiones técnicas y código abierto.

@@ -69,7 +69,7 @@ export const profile = {
 
   education: [
     {
-      period: "Julio 2024 — Octubre 2025",
+      period: "Julio 2024 — noviembre 20",
       title: "Tecnólogo en Análisis y Desarrollo de Software",
       organization: "SENA · Centro de Comercio y Turismo",
       description: "Formación en desarrollo de software, bases de datos, desarrollo web, APIs y fundamentos de ingeniería.",
