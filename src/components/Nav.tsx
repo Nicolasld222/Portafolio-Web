@@ -23,36 +23,36 @@ const springTransition = { type: "spring" as const, stiffness: 380, damping: 32,
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("proyectos");
-  const frame = useRef<number | null>(null);
+  const [activeSection, setActiveSection] = useState("inicio");
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    const update = () => {
-      frame.current = null;
-      setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-      let currentSection = "inicio";
-      sectionIds.forEach((section) => {
-        const element = document.getElementById(section);
-        if (element && element.getBoundingClientRect().top <= 180) {
-          currentSection = section;
+  useEffect(() => {
+    const options = { root: null, rootMargin: "-20% 0% -70% 0%", threshold: 0 };
+    observerRef.current = new IntersectionObserver((entries) => {
+      let current = "inicio";
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          current = entry.target.id;
         }
       });
+      setActiveSection(current);
+    }, options);
 
-      setActiveSection(currentSection);
-    };
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observerRef.current!.observe(el);
+    });
 
-    const onScroll = () => {
-      if (frame.current === null) {
-        frame.current = window.requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (frame.current !== null) window.cancelAnimationFrame(frame.current);
+      observerRef.current?.disconnect();
+      observerRef.current = null;
     };
   }, []);
 
@@ -133,7 +133,7 @@ export default function Nav() {
                     transition={springTransition}
                   />
                 )}
-                <FontAwesomeIcon icon={item.icon} className="relative z-10 h-3.5 w-3.5" aria-hidden="true" />
+                <FontAwesomeIcon icon={item.icon} className="relative z-10 h-5 w-5" aria-hidden="true" />
               </a>
             );
           })}

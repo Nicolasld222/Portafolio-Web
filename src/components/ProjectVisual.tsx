@@ -95,13 +95,13 @@ function ProjectImage({
           : "border-fuchsia-100/15 shadow-fuchsia-950/20 hover:border-fuchsia-200/35 hover:shadow-fuchsia-500/10"
       }`}
     >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes="(max-width: 1024px) 90vw, 44vw"
-        className="object-contain transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.06] motion-reduce:transform-none motion-reduce:transition-none"
-      />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 1024px) 90vw, 44vw"
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[1.06] motion-reduce:transform-none motion-reduce:transition-none"
+        />
     </div>
   );
 }

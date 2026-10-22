@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { useState, useEffect } from "react";
 import type { ReactNode } from "react";
 
 type SpotlightProps = {
@@ -24,14 +25,24 @@ export default function Spotlight({
   overlayClassName = "rounded-[inherit]",
 }: SpotlightProps) {
   const reduce = useReducedMotion();
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const isMobile = viewportWidth < 640;
   const pointerX = useMotionValue(-999);
   const pointerY = useMotionValue(-999);
   const x = useSpring(pointerX, { stiffness: 160, damping: 24, mass: 0.5 });
   const y = useSpring(pointerY, { stiffness: 160, damping: 24, mass: 0.5 });
   const background = useMotionTemplate`radial-gradient(${radius} circle at ${x}px ${y}px, ${glow}, transparent 72%)`;
 
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+    return () => window.removeEventListener("resize", updateViewportWidth);
+  }, []);
+
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (reduce) return;
+    if (reduce || isMobile) return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     pointerX.set(event.clientX - rect.left);

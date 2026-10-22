@@ -21,7 +21,7 @@ export default function Hero() {
   return (
     <section
       id="inicio"
-      className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-transparent px-5 pb-16 pt-28 text-white sm:px-8 sm:pt-24"
+      className="relative isolate flex min-h-[85svh] sm:min-h-[100svh] items-center overflow-hidden bg-transparent px-5 pb-10 sm:pb-16 pt-20 sm:pt-24 text-white sm:px-8"
     >
       <motion.div aria-hidden style={{ y: backgroundY }} className="hero-grid pointer-events-none absolute -inset-y-24 inset-x-0 opacity-40" />
       <div
@@ -49,7 +49,7 @@ export default function Hero() {
             {profile.role}
           </motion.p>
 
-          <h1 className="max-w-[10ch] text-[46px] font-semibold leading-[0.98] tracking-[-0.06em] sm:text-[68px] lg:text-[82px]">
+          <h1 className="max-w-[14ch] sm:max-w-[10ch] text-[46px] font-semibold leading-[0.98] tracking-[-0.06em] sm:text-[68px] lg:text-[82px]">
             <SplitText
               as="span"
               text="Sistemas sólidos. Productos que escalan."
