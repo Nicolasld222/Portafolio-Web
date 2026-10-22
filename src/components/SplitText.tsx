@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect } from "react";
 import type { ElementType } from "react";
 
 type SplitTextProps = {
@@ -29,13 +30,23 @@ export default function SplitText({
   as: Tag = "span",
 }: SplitTextProps) {
   const reduce = useReducedMotion();
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const isMobile = viewportWidth < 640;
   const { scrollY } = useScroll();
-  const driftNear = useTransform(scrollY, [0, 700], [0, reduce ? 0 : -60]);
-  const driftMid = useTransform(scrollY, [0, 700], [0, reduce ? 0 : -120]);
-  const driftFar = useTransform(scrollY, [0, 700], [0, reduce ? 0 : -185]);
+  const driftNear = useTransform(scrollY, [0, 700], [0, (reduce || isMobile) ? 0 : -60]);
+  const driftMid = useTransform(scrollY, [0, 700], [0, (reduce || isMobile) ? 0 : -120]);
+  const driftFar = useTransform(scrollY, [0, 700], [0, (reduce || isMobile) ? 0 : -185]);
   const words = text.split(" ");
   const visible = { y: "0%", opacity: 1, filter: "blur(0px)" };
   const hidden = reduce ? { y: "0%", opacity: 1, filter: "blur(0px)" } : { y: "112%", opacity: 0, filter: "blur(10px)" };
+
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+    return () => window.removeEventListener("resize", updateViewportWidth);
+  }, []);
 
   return (
     <Tag className={className}>
@@ -43,7 +54,7 @@ export default function SplitText({
         <motion.span
           key={`${word}-${index}`}
           className="inline-block"
-          style={drift ? { y: index % 3 === 0 ? driftNear : index % 3 === 1 ? driftMid : driftFar } : undefined}
+          style={drift && !(reduce || isMobile) ? { y: index % 3 === 0 ? driftNear : index % 3 === 1 ? driftMid : driftFar } : undefined}
         >
           <span className="inline-block overflow-hidden align-bottom pb-[0.16em] -mb-[0.16em]">
             <motion.span

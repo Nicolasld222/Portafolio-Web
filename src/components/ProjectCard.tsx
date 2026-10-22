@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/data/projects";
 import ProjectVisual from "./ProjectVisual";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const reduce = useReducedMotion();
+  const [viewportWidth, setViewportWidth] = useState(0);
+  const isMobile = viewportWidth < 640;
   const cardRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: cardRef, offset: ["start end", "end start"] });
   const visualY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 46, reduce ? 0 : -46]);
@@ -20,8 +22,16 @@ export default function ProjectCard({ project }: { project: Project }) {
   const tiltY = useSpring(tiltSourceY, { stiffness: 170, damping: 20, mass: 0.5 });
   const spotlight = useMotionTemplate`radial-gradient(26rem circle at ${pointerX}px ${pointerY}px, rgba(244, 114, 182, 0.16), transparent 70%)`;
 
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+    return () => window.removeEventListener("resize", updateViewportWidth);
+  }, []);
+
   const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
-    if (reduce) return;
+    if (reduce || isMobile) return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -40,12 +50,14 @@ export default function ProjectCard({ project }: { project: Project }) {
     tiltSourceY.set(0);
   };
 
+  const cardStyle = reduce || isMobile ? undefined : { rotateX: tiltX, rotateY: tiltY, transformPerspective: 1200 };
+
   return (
     <motion.article
       ref={cardRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      style={reduce ? undefined : { rotateX: tiltX, rotateY: tiltY, transformPerspective: 1200 }}
+      style={cardStyle}
       id={project.visual === "booking" ? "ubik-arquitectura" : undefined}
       className="project-card group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#10101a]/75 p-4 shadow-[0_28px_100px_rgba(0,0,0,.28)] backdrop-blur-xl sm:rounded-[34px] sm:p-7 lg:p-8"
     >
@@ -55,11 +67,13 @@ export default function ProjectCard({ project }: { project: Project }) {
           project.visual === "booking" ? "-left-32 bg-cyan-400/10" : "-right-28 bg-violet-400/15"
         }`}
       />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: spotlight }}
-      />
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: spotlight }}
+        />
+      )}
       <div className="relative grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
         <div className="order-2 lg:order-1">
           <div className="flex items-center gap-3">
